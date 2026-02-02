@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sarura, My Valentine</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffc0cb; /* Rose de base */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><text x="10" y="80" font-family="Arial" font-size="50" fill="%23ffd1dc" transform="rotate(-15 100 100)">Sarura</text><text x="110" y="160" font-family="Arial" font-size="50" fill="%23ffd1dc" transform="rotate(15 100 100)">Sarura</text></svg>');
+            background-repeat: repeat;
+            background-size: 150px 150px; /* Ajuste la taille du motif Sarura */
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+            25% { transform: translateY(-10px) rotate(5deg); opacity: 0.8; }
+            50% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+            75% { transform: translateY(10px) rotate(-5deg); opacity: 0.8; }
+            100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .flower, .heart {
+            position: absolute;
+            font-size: 2.5rem;
+            z-index: 0; /* Pour qu'ils soient derrière le contenu principal */
+            opacity: 0.7;
+            animation: fadeIn 2s ease-out forwards, float 10s infinite ease-in-out;
+            pointer-events: none; /* Empêche les clics indésirables */
+        }
+
+        .flower:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .flower:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+        .flower:nth-child(3) { bottom: 15%; left: 20%; animation-delay: 2s; }
+        .flower:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 3s; }
+        .flower:nth-child(5) { top: 5%; left: 50%; animation-delay: 0.5s; }
+        .flower:nth-child(6) { bottom: 5%; right: 50%; animation-delay: 2.5s; }
+
+        .heart:nth-child(7) { top: 30%; left: 5%; animation-delay: 0s; animation-duration: 8s; }
+        .heart:nth-child(8) { top: 60%; right: 7%; animation-delay: 1s; animation-duration: 9s; }
+        .heart:nth-child(9) { bottom: 25%; left: 15%; animation-delay: 2s; animation-duration: 7s; }
+        .heart:nth-child(10) { top: 15%; right: 25%; animation-delay: 0.5s; animation-duration: 8.5s; }
+
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            max-width: 600px;
+            position: relative;
+            z-index: 1; /* Pour qu'il soit au-dessus des fleurs/cœurs */
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            animation: heartBeat 2s infinite;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 80px; /* Espace pour les boutons */
+            margin-top: 2rem;
+        }
+
+        button {
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            background-color: #ff1244;
+        }
+
+        #noBtn {
+            background-color: #6c757d;
+            color: white;
+            padding: 15px 40px; /* Taille normale au début */
+            position: relative; /* Pour le mouvement futur */
+        }
+
+        /* Quand le bouton "No" bouge sur mobile */
+        @media (max-width: 768px) {
+            #noBtn.moved {
+                position: absolute; /* Permet un mouvement libre */
+                padding: 10px 20px; /* Plus petit */
+                font-size: 1rem;
+                transition: all 0.2s ease-out; /* Animation plus rapide */
+            }
+        }
+
+        #noBtn:hover {
+            background-color: #5a6268;
+        }
+
+
+        #message {
+            display: none; /* Masqué au début */
+            margin-top: 30px;
+            color: #851e3e;
+            line-height: 1.8;
+            font-size: 1.2rem;
+            font-style: italic;
+            animation: fadeIn 2s ease-out forwards;
+            text-align: left;
+        }
+        #message h2 {
+            color: #d63384;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Style pour le bouton initial de la page d'accueil */
+        #initialLink {
+            background-color: #ff6f91;
+            color: white;
+            padding: 20px 60px;
+            font-size: 2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            transition: transform 0.4s ease-out, background-color 0.4s ease-out;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        #initialLink:hover {
+            transform: scale(1.05);
+            background-color: #ff386c;
+        }
+
+        .initial-page {
+            display: flex; /* Affiché par défaut */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #ffc0cb; /* Même fond que la page principale */
+            z-index: 10;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <span class="flower">🌸</span>
+    <span class="flower">🌷</span>
+    <span class="flower">🌹</span>
+    <span class="flower">🌺</span>
+    <span class="flower">🌼</span>
+    <span class="flower">🌻</span>
+    <span class="heart">❤️</span>
+    <span class="heart">💖</span>
+    <span class="heart">💗</span>
+    <span class="heart">💘</span>
+
+    <div class="initial-page" id="initialPage">
+        <a href="#" id="initialLink">For Sarura, My Valentine</a>
+    </div>
+
+    <div class="container hidden" id="mainContainer">
+        <div id="main-content">
+            <h1>Will you be my Valentine, Sarura? ❤️</h1>
+            <div class="buttons">
+                <button id="yesBtn">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div id="message">
+            <h2>My Dearest Sarura, I knew you'd say yes! 🥰</h2>
+            <p>
+                My love, on Valentine's Day, I just want to tell you how much every single mile apart makes our journey feel even more special. Every late-night chat, every silly shared dream, and every moment we connect across the distance is a testament to the incredible bond we share. Our love story isn't just a story; it's an adventure, and you're the most amazing co-pilot I could ever ask for. Waiting for the day I can finally hold you in my arms again is the most beautiful anticipation. You make every day feel like Valentine's Day, no matter how far. Thank you for being you, my beautiful Sarura.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const initialLink = document.getElementById('initialLink');
+        const initialPage = document.getElementById('initialPage');
+        const mainContainer = document.getElementById('mainContainer');
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainContent = document.getElementById('main-content');
+        const messageDiv = document.getElementById('message');
+
+        // Au clic sur le lien initial, on affiche la page principale
+        initialLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Empêche le défilement de la page
+            initialPage.classList.add('hidden');
+            mainContainer.classList.remove('hidden');
+        });
+
+        // Fonction pour faire bouger le bouton "No"
+        function moveNoButton() {
+            // Sur mobile (max-width 768px), le bouton devient "absolute" pour bouger
+            if (window.innerWidth <= 768) {
+                noBtn.classList.add('moved');
+                const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+                const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+                noBtn.style.left = x + 'px';
+                noBtn.style.top = y + 'px';
+            } else {
+                // Sur desktop, le bouton bouge au survol, mais reste "relative" au flux
+                const parentRect = noBtn.parentElement.getBoundingClientRect();
+                const randomX = Math.random() * 200 - 100; // Bouge de -100px à +100px
+                const randomY = Math.random() * 200 - 100;
+                
+                noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            }
+        }
+
+        // Événement pour le bouton "No"
+        if (window.innerWidth <= 768) {
+            // Sur mobile, on écoute le clic
+            noBtn.addEventListener('click', moveNoButton);
+        } else {
+            // Sur desktop, on écoute le survol
+            noBtn.addEventListener('mouseover', moveNoButton);
+        }
+
+        // Réinitialise la position du bouton "No" quand la souris quitte (pour desktop)
+        noBtn.addEventListener('mouseleave', () => {
+            if (window.innerWidth > 768) {
+                noBtn.style.transform = 'translate(0, 0)';
+            }
+        });
+
+
+        // Action quand on clique sur "Yes"
+        yesBtn.addEventListener('click', () => {
+            mainContent.style.display = 'none';
+            messageDiv.style.display = 'block';
+            document.body.style.backgroundColor = "#ff85a1"; // Change le fond pour célébrer
+        });
+    </script>
+</body>
+</html>
